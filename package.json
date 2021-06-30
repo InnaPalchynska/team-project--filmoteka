@@ -1,22 +1,22 @@
 {
-  "name": "Filmoteka",
+  "name": "team-project--filmoteka",
   "version": "1.1.0",
   "description": "",
   "main": "index.js",
-  "homepage": "https://InnaPalchynska.github.io/Filmoteka",
+  "homepage": "https://InnaPalchynska.github.io/team-project--filmoteka",
   "scripts": {
     "dev": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /Filmoteka/"
+    "build": "parcel build src/*.html --public-url /team-project--filmoteka/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/InnaPalchynska/Filmoteka.git"
+    "url": "git+https://github.com/InnaPalchynska/team-project--filmoteka.git"
   },
   "keywords": [],
   "author": "Alexander Repeta <alexander.repeta@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/InnaPalchynska/Filmoteka/issues"
+    "url": "https://github.com/InnaPalchynska/team-project--filmoteka/issues"
   },
   "staticFiles": {
     "staticPath": "src/images",
