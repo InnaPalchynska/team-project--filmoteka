@@ -11,6 +11,8 @@ import {
   onQueueButton,
 } from './local-storage';
 
+// import { toggleSignIn, initApp, sendPasswordReset, handleSignUp } from './auth';
+
 const refs = getRefs();
 // const moviesApiService = new MoviesApiService();
 
@@ -55,6 +57,8 @@ async function renderMovieCardLightbox(fullInfo) {
   });
 
   lightbox.show();
+
+  // initApp();
 
   initialSaveToLocalStorage('watched');
   initialSaveToLocalStorage('queue');

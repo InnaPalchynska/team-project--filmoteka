@@ -12,3 +12,5 @@ import './js/render-movie-card-lightbox.js';
 import './js/renderMovies.js';
 import './js/footer-lightbox.js';
 import './js/header-lightbox.js';
+
+import './js/auth.js';
