@@ -2,23 +2,24 @@ import getRefs from '../js/get-refs.js';
 import { moviesApiService } from './moviesApiService.js';
 import smoothScrool from './smoothScrool.js';
 import movieCardTpl from '../templates/movie-card.hbs';
-// import Pagination from 'tui-pagination';
 import { pagination, options } from './pagination.js';
+import { layerService } from './layerService.js';
+import { addFilterListeners, removeFilterListeners } from './render-genres-filter';
 
-import {
-  showTextError,
-  insertContentTpl,
-  clearContainer,
-} from './notification';
+import { showTextError, insertContentTpl, clearContainer } from './notification';
 import errorTpl from '../templates/error-not-found-film.hbs';
 
 const refs = getRefs();
+addFilterListeners();
+
 refs.home.addEventListener('click', onLogoAndHomeClick);
 refs.logoLink.addEventListener('click', onLogoAndHomeClick);
+console.log(layerService);
 
 let searchQuery = '';
+
 function onSearch(event) {
-  // event.preventDefault();
+  event.preventDefault();
 
   pagination.movePageTo(1);
   refs.moviesList.innerHTML = '';
@@ -30,6 +31,9 @@ function onSearch(event) {
   }
   moviesApiService.query = searchQuery;
   renderPopularMoviesGrid(searchQuery).catch(error => console.log(error));
+
+  refs.filterWrapper.classList.add('visually-hidden');
+  removeFilterListeners();
 }
 
 let currentPage = localStorage.getItem('currentPage');
@@ -70,21 +74,15 @@ let currentPage = localStorage.getItem('currentPage');
 // const pagination = new Pagination(container, options);
 
 async function renderPopularMoviesGrid(searchQuery) {
-  const fetchMovies = searchQuery
+  const query = searchQuery || moviesApiService.query;
+  const fetchMovies = query
     ? moviesApiService.fetchMoviesBySearch()
     : moviesApiService.fetchPopularMovies();
 
-  const {
-    results: movies,
-    page,
-    total_pages,
-    total_results,
-  } = await fetchMovies;
+  const { results: movies, page, total_pages, total_results } = await fetchMovies;
 
   if (movies.length === 0) {
-    const notifyErrorHeader = document.querySelector(
-      '.js-search-field__error-text',
-    );
+    const notifyErrorHeader = document.querySelector('.js-search-field__error-text');
     showTextError(
       notifyErrorHeader,
       'Search result not successful. Enter the correct movie name and',
@@ -108,9 +106,10 @@ async function renderPopularMoviesGrid(searchQuery) {
     refs.divPagination.classList.remove('hidden-tui');
     pagination.setTotalItems(total_pages);
   }
-  refs.moviesList.innerHTML = '';
+  // refs.moviesList.innerHTML = '';
   const popularMoviesMarkup = movieCardTpl(movies);
-  refs.moviesList.insertAdjacentHTML('beforeend', popularMoviesMarkup);
+  // refs.moviesList.insertAdjacentHTML('beforeend', popularMoviesMarkup);
+  refs.moviesList.innerHTML = popularMoviesMarkup;
 }
 
 function transformMoviesObjectFields(movies, genresList) {
@@ -147,7 +146,12 @@ function onLogoAndHomeClick() {
 }
 
 pagination.on('afterMove', function (evt) {
+  console.log(layerService.getName());
+  if (layerService.getName() != 'home') {
+    return;
+  }
   smoothScrool();
+  console.log('AFTER_MOVE', evt);
   currentPage = evt.page;
   localStorage.setItem('currentPage', currentPage);
   showPopularMovies(currentPage);
@@ -156,16 +160,14 @@ pagination.on('afterMove', function (evt) {
 if (currentPage === null) {
   moviesApiService.setPage(1);
   // pagination.page = 1;
-  refs.moviesList.innerHTML = '';
+  // refs.moviesList.innerHTML = '';
   renderPopularMoviesGrid().catch(error => console.log(error));
 } else {
   moviesApiService.setPage(currentPage);
   // pagination.page = currentPage;
-  refs.moviesList.innerHTML = '';
+  // refs.moviesList.innerHTML = '';
   showPopularMovies(currentPage);
   // renderPopularMoviesGrid().catch(error => console.log(error));
 }
-
-renderPopularMoviesGrid().catch(error => console.log(error));
 
 export { onSearch };
