@@ -1,0 +1,25 @@
+.scena {
+  width: 24px;
+  height: 24px;
+  perspective: 600px;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  
+  transform-style: preserve-3d;
+  cursor: pointer;
+  position: relative;
+  transition: transform 1s;
+}
+
+.scena:hover .card{
+  transform: rotateY(180deg);
+}
+
+.card__face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}

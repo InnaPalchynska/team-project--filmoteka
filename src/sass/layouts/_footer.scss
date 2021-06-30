@@ -1,0 +1,155 @@
+.footer {
+  background: get-bgColor('footer');
+}
+
+.footer__box {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+
+  @media screen and(min-width: $tablet) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.footer__title {
+  display: inline-block;
+  font-weight: 400;
+  font-size: getFont-size__mob('text-footer');
+  line-height: 1.14;
+  color: get-textColor('footer');
+
+  @media screen and(min-width: $tablet) {
+    font-size: getFont-size__tab('text-footer');
+    line-height: 1.19;
+  }
+}
+
+.footer__button {
+  font-weight: 400;
+  font-size: getFont-size__mob('text-footer');
+  line-height: 1.14;
+  color: get-textColor('accent');
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  @media screen and(min-width: $tablet) {
+    font-size: getFont-size__tab('text-footer');
+    line-height: 1.19;
+  }
+}
+
+.footer-lightbox__card {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  @media screen and(min-width: $tablet) {
+    width: 720px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  @media screen and(min-width: $desktop) {
+    width: 950px;
+  }
+}
+
+.team__list {
+  @media screen and (min-width: $tablet) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: -25px;
+    margin-left: -10px;
+  }
+}
+
+.team__member {
+  position: relative;
+  margin-top: 25px;
+  width: 260px;
+
+  background-color: get-bgColor('footer');
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.1),
+    1px 4px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 0px 0px 5px 5px;
+
+  @media screen and (min-width: $tablet) {
+    width: 30%;
+    height: 270px;
+    margin-left: 20px;
+  }
+}
+
+.member__photo {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.member__info {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 50px;
+  background-color: rgba(47, 48, 58, 0.6);
+}
+
+.member__heading {
+  margin-left: 5px;
+  font-size: getFont-size__mob('team-heading');
+  font-weight: 500;
+  color: get-textColor('light');
+  line-height: 1.16;
+  text-transform: uppercase;
+
+  @media screen and (min-width: $tablet) {
+    font-size: getFont-size__tab('team-heading');
+    letter-spacing: 0.04em;
+  }
+
+  @media screen and (min-width: $desktop) {
+    letter-spacing: 0.01em;
+  }
+}
+
+.member__social-link {
+  position: absolute;
+  bottom: 10px;
+  left: 225px;
+  border-radius: 50px;
+  background-color: transparent;
+  color: get-svgColor('light-color');
+  transform: scale(1.1);
+  transition: transform $duration $timing-function, color $duration $timing-function,
+    box-sizing $duration $timing-function;
+
+  &:hover,
+  &:focus {
+    transform: scale(1.3);
+    color: get-svgColor('accent-color');
+    box-sizing: 0 5px 40px 5px rgb(220 51 24 / 25%);
+  }
+
+  @media screen and (min-width: $tablet) {
+    left: 185px;
+  }
+
+  @media screen and (min-width: $desktop) {
+    left: 255px;
+  }
+}
+
+.im-github {
+  fill: currentColor;
+}

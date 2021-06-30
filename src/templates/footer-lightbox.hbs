@@ -1,0 +1,24 @@
+<div class='footer-lightbox__card lightbox__card'>
+  <button
+    type='button'
+    class='footer-lightbox__close-btn lightbox__close-btn'
+    data-action='close-lightbox'
+  >
+    <i class='material-icons-outlined'>close</i>
+  </button>
+  {{! 
+  <h2 class='footer-lightbox__heading'>Meet our awesome team ITeamChic</h2> }}
+
+  <ul class='team__list list'>
+    {{#each this}}
+      <li class='team__member'>
+        <img class='member__photo' src='{{photo}}' alt='{{name}}' />
+        <div class='member__info'>
+          <h3 class='member__heading'>{{name}}</h3>
+        </div>
+        <a href='{{social}}' class='member__social-link'>
+          <i class='im im-github'></i>
+        </a>
+      </li>
+    {{/each}}
+  </ul>
