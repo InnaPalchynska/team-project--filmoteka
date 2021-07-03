@@ -166,8 +166,4 @@ window.onload = function () {
   // }, 700);
 };
 
-// window.onload = function () {
-//   initApp();
-// };
-
 export { toggleSignIn, initApp, sendPasswordReset, handleSignUp };

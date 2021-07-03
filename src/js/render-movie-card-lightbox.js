@@ -4,12 +4,20 @@ import movieCardLightboxTpl from '../templates/movie-card-lightbox.hbs';
 
 import '../sass/components/_basic-lightbox.scss';
 import * as basicLightbox from 'basiclightbox';
+// import {
+//   initialSaveToLocalStorage,
+//   checkBtnTextContent,
+//   onWatchedButton,
+//   onQueueButton,
+// } from './local-storage';
+
 import {
-  initialSaveToLocalStorage,
-  checkBtnTextContent,
   onWatchedButton,
   onQueueButton,
-} from './local-storage';
+  getLibraryMovies,
+  updateBtnTextContent,
+  checkBtnTextContent,
+} from './fireBase-dataBase';
 
 // import { toggleSignIn, initApp, sendPasswordReset, handleSignUp } from './auth';
 
@@ -42,6 +50,7 @@ async function getFullInfoOfMovie(currentMovieCard) {
 }
 
 async function renderMovieCardLightbox(fullInfo) {
+  console.log(fullInfo);
   getMovieGenres(fullInfo);
   getMoviePopularity(fullInfo);
   getMoviePoster(fullInfo);
@@ -60,14 +69,17 @@ async function renderMovieCardLightbox(fullInfo) {
 
   // initApp();
 
-  initialSaveToLocalStorage('watched');
-  initialSaveToLocalStorage('queue');
+  // initialSaveToLocalStorage('watched');
+  // initialSaveToLocalStorage('queue');
 
   const modalBtnWatched = document.querySelector('.lightbox__button--watched');
   const modalBtnQueue = document.querySelector('.lightbox__button--queue');
 
-  checkBtnTextContent(modalBtnWatched, 'watched');
-  checkBtnTextContent(modalBtnQueue, 'queue');
+  // checkBtnTextContent(modalBtnWatched, 'watched');
+  // checkBtnTextContent(modalBtnQueue, 'queue');
+
+  checkBtnTextContent(modalBtnWatched, fullInfo.id, 'watched');
+  checkBtnTextContent(modalBtnQueue, fullInfo.id, 'queue');
 
   modalBtnWatched.addEventListener('click', onWatchedButton);
   modalBtnQueue.addEventListener('click', onQueueButton);

@@ -9,6 +9,8 @@ import {
   arrayRemove,
   getFirestore,
   onSnapshot,
+  where,
+  query,
 } from 'firebase/firestore';
 
 import { renderLibraryMovies } from './render-library-movies';
@@ -20,22 +22,14 @@ function getUser() {
   const user = auth.currentUser;
 
   if (user) {
-    console.log(user.uid);
     return user.uid;
   } else {
     console.log('No user is signed in.');
   }
 }
 
-// setTimeout(getUser, 1000);
-
 async function getLibraryMovies(libraryType) {
   const currentUserUid = getUser();
-  // const unsub = await onSnapshot(doc(db, libraryType, currentUserUid), doc => {
-  //   return doc.data().movieId;
-  // });
-  // console.log(unsub);
-  // return  unsub;
 
   const docRef = doc(db, libraryType, currentUserUid);
   const docSnap = await getDoc(docRef);
@@ -46,8 +40,6 @@ async function getLibraryMovies(libraryType) {
     console.log('No movies yet...');
   }
 }
-
-// setTimeout(getLibraryMovies, 2000);
 
 async function addMoviesToLibrary(libraryType, movieId) {
   const currentUserUid = getUser();
@@ -73,52 +65,56 @@ async function removeMoviesFromLibrary(libraryType, movieId) {
   });
 }
 
-// setTimeout(addMoviesToLibrary, 3000);
-
 function onQueueButton(e) {
-  // const currentUserUid = getUser();
   const movieId = e.target.id;
   const libraryType = 'queue';
+  const updatedBtn = e.target;
   getLibraryMovies(libraryType).then(watchedMovies => {
-    if (!watchedMovies.includes(movieId)) {
+    if (!watchedMovies.includes(String(movieId))) {
+      updateBtnTextContent(updatedBtn, watchedMovies, movieId, libraryType);
       addMoviesToLibrary(libraryType, movieId);
-      updateBtnTextContent(e, watchedMovies, movieId, libraryType);
     } else {
+      updateBtnTextContent(updatedBtn, watchedMovies, movieId, libraryType);
       removeMoviesFromLibrary(libraryType, movieId);
-      updateBtnTextContent(e, watchedMovies, movieId, libraryType);
     }
   });
-  //   updateLocalStorage(e, 'queue');
-  //   renderLibraryMovies('queue');
 }
 
-function updateBtnTextContent(e, watchedMovies, movieId, libraryType) {
-  if (!watchedMovies.includes(movieId)) {
-    e.target.textContent = `Remove from ${libraryType}`;
-    e.target.classList.add('active');
+function updateBtnTextContent(updatedBtn, watchedMovies, movieId, libraryType) {
+  if (!watchedMovies.includes(String(movieId))) {
+    updatedBtn.textContent = `Remove from ${libraryType}`;
+    updatedBtn.classList.add('active');
   } else {
-    e.target.textContent = `Add to ${libraryType}`;
-    e.target.classList.remove('active');
+    updatedBtn.textContent = `Add to ${libraryType}`;
+    updatedBtn.classList.remove('active');
   }
 }
 
-function onWatchedButton(e) {
-  // const currentUserUid = getUser();
-  const movieId = e.target.id;
-  const libraryType = 'watched';
-
+function checkBtnTextContent(updatedBtn, movieId, libraryType) {
   getLibraryMovies(libraryType).then(watchedMovies => {
-    if (!watchedMovies.includes(movieId)) {
-      addMoviesToLibrary(libraryType, movieId);
-      updateBtnTextContent(e, watchedMovies, movieId, libraryType);
+    if (watchedMovies.includes(String(movieId))) {
+      updatedBtn.textContent = `Remove from ${libraryType}`;
+      updatedBtn.classList.add('active');
     } else {
-      removeMoviesFromLibrary(libraryType, movieId);
-      updateBtnTextContent(e, watchedMovies, movieId, libraryType);
+      updatedBtn.textContent = `Add to ${libraryType}`;
+      updatedBtn.classList.remove('active');
     }
   });
-  // console.log(watchedMovies);
-  //   updateLocalStorage(e, 'queue');
-  //   renderLibraryMovies('queue');
+}
+
+function onWatchedButton(e) {
+  const movieId = e.target.id;
+  const libraryType = 'watched';
+  const updatedBtn = e.target;
+  getLibraryMovies(libraryType).then(watchedMovies => {
+    if (!watchedMovies.includes(String(movieId))) {
+      updateBtnTextContent(updatedBtn, watchedMovies, movieId, libraryType);
+      addMoviesToLibrary(libraryType, movieId);
+    } else {
+      updateBtnTextContent(updatedBtn, watchedMovies, movieId, libraryType);
+      removeMoviesFromLibrary(libraryType, movieId);
+    }
+  });
 }
 
 export {
@@ -126,4 +122,5 @@ export {
   onQueueButton,
   getLibraryMovies,
   updateBtnTextContent,
+  checkBtnTextContent,
 };
